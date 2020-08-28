@@ -2,7 +2,15 @@ const models = require('../models')
 
 const booksController = {
   async index(request, response, next) {
-    const booksIndex = await models.Book.findAll()
+    const booksIndex = await models.Book.findAll({
+      include: [
+        {
+          model: models.Author,
+          as: 'author',
+          attributes: ['firstName', 'lastName' ]
+        }
+      ]
+    } )
     response.json({ books: booksIndex })
   },
 
