@@ -8,7 +8,17 @@ const booksController = {
 
   async show(request, response, next) {
     const { id } = request.params
-    const book = await models.Book.findByPk(id)
+    const book = await models.Book.findByPk(id,
+      {
+        include: [
+          {
+            model: models.Author,
+            as: 'author',
+            attributes: ['firstName', 'lastName' ]
+          }
+        ]
+      } 
+      )
     response.send({book: book})
   }
 }
